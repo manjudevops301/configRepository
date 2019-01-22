@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+    stages {
+		stage('CheckoutPipeLineFile') {
+			steps {
+				script {
+					buildNo=env.BUILD_NUMBER
+					jobName=env.JOB_NAME
+					prop = readProperties file: 'Properties/pipelineFile.properties'
+					sh prop.GIT_URL
+					util=load prop.JAVA_FILE
+					commonUtil=load prop.COMMON_GROOVY_FILE
+					print '*************************************Pipeline Checkout is done************************************************'
+					util.execute();
+				}
+			}
+		}
+	}
+	post {
+        always {
+			script {
+				commonUtil.sendingTheEmail();
+				commonUtil.cleanWorkspace();
+			}
+        }
+    }
+}
