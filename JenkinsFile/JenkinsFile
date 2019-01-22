@@ -20,7 +20,7 @@ pipeline {
         always {
 			script {
 				commonUtil.sendingTheEmail();
-				commonUtil.cleanWorkspace();
+				commonUtil.cleanTheWorkspace();
 			}
         }
     }
